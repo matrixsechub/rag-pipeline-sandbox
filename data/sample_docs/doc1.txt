@@ -1,0 +1,44 @@
+
+Introduction to Retrieval-Augmented Generation
+
+Retrieval-Augmented Generation (RAG) is a machine learning technique that combines
+the strengths of information retrieval systems with large language model generation.
+Traditional language models rely solely on knowledge encoded in their parameters
+during training. This parametric knowledge can become outdated, may contain
+inaccuracies, and cannot be updated without retraining.
+
+RAG addresses these limitations by augmenting the generation process with a dynamic
+retrieval step. At inference time, the system retrieves relevant documents from an
+external knowledge base and injects them into the model's context window. This
+grounds the generated response in real, verifiable source material.
+
+How RAG Works
+
+The RAG pipeline consists of two main phases: indexing and querying.
+
+During indexing, documents are preprocessed and split into smaller chunks.
+Each chunk is converted into a dense vector embedding using an encoder model.
+These embeddings are stored in a vector database, which supports efficient
+similarity search over millions of vectors.
+
+During querying, the user's input is also converted into an embedding using
+the same encoder model. The system then searches the vector database for the
+most semantically similar chunks using nearest-neighbor search. The top-K
+retrieved chunks are concatenated with the original query and passed to
+a language model, which generates a grounded response.
+
+Benefits of RAG
+
+RAG provides several key advantages over standard language model inference.
+First, it reduces hallucination by anchoring responses to retrieved facts.
+Second, it improves factual accuracy because the model can cite specific sources.
+Third, it enables knowledge to be updated simply by updating the document store,
+without any model retraining. Fourth, it allows domain-specific customization
+by indexing proprietary documents that were never part of the model's training data.
+
+Common Use Cases
+
+RAG is widely used in question-answering systems, document summarization,
+enterprise knowledge bases, customer support chatbots, and code documentation tools.
+Any application that requires a language model to answer questions about specific,
+up-to-date, or proprietary information is a strong candidate for RAG architecture.

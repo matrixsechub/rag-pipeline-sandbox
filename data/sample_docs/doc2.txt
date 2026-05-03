@@ -1,0 +1,49 @@
+
+Chunking and Embeddings in RAG Systems
+
+Chunking Strategy
+
+Chunking is the process of splitting a document into smaller, overlapping text
+segments before embedding and indexing. Chunking strategy is one of the most
+important design decisions in a RAG pipeline, because retrieval quality depends
+heavily on how well individual chunks capture a coherent unit of meaning.
+
+Fixed-size chunking splits text into segments of a predetermined character or
+token count. It is simple and predictable, but may split sentences mid-way,
+breaking semantic context. Overlap between consecutive chunks helps mitigate
+this issue by ensuring boundary-crossing content is represented in both chunks.
+
+Recursive chunking uses a hierarchy of delimiters, starting with paragraph breaks,
+then sentence boundaries, then words, and finally characters. This produces more
+semantically coherent chunks while still enforcing a maximum size constraint.
+It is the most commonly used strategy in production RAG systems.
+
+Semantic chunking groups sentences together based on their embedding similarity.
+A new chunk boundary is introduced whenever the semantic similarity between
+consecutive sentences drops below a threshold. This produces the most coherent
+chunks but requires embedding each sentence individually, making it computationally
+more expensive than the other approaches.
+
+Embedding Models
+
+An embedding model maps text to a point in a high-dimensional vector space.
+Texts with similar meaning are mapped to nearby points, while semantically
+unrelated texts are mapped to distant points. This geometric property enables
+similarity search using distance metrics such as cosine similarity or Euclidean distance.
+
+Sentence-transformers is a popular library for generating dense text embeddings.
+It provides pretrained models like all-MiniLM-L6-v2, which produces 384-dimensional
+vectors and balances speed with semantic quality. The model can run entirely on CPU,
+making it suitable for local development without GPU requirements.
+
+Vector Databases
+
+A vector database is a storage system optimized for indexing and querying
+high-dimensional vectors. Unlike traditional databases that search by exact match,
+vector databases use approximate nearest-neighbor (ANN) algorithms such as HNSW
+(Hierarchical Navigable Small World) to find the most similar vectors efficiently.
+
+ChromaDB is an open-source, embeddable vector database designed for AI applications.
+It can operate entirely in memory for development or persist data to disk for
+production use. ChromaDB supports metadata filtering, allowing retrieval to be
+scoped to specific document sources, date ranges, or other attributes.
