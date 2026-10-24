@@ -52,6 +52,13 @@ def fixed_chunk(
         - May split mid-sentence or mid-word
         - Ignores semantic structure
     """
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than 0")
+    if overlap < 0:
+        raise ValueError("overlap must be greater than or equal to 0")
+    if overlap >= chunk_size:
+        raise ValueError("overlap must be smaller than chunk_size")
+
     if not text:
         return []
 
