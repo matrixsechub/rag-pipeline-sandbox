@@ -180,17 +180,19 @@ class RAGPipeline:
         """
         all_chunks = []
 
+        # Each strategy takes different keyword arguments; passing the union
+        # raises TypeError. Semantic chunking sizes itself from paragraphs.
+        strategy_kwargs = {
+            "fixed": {"chunk_size": self.chunk_size, "overlap": self.chunk_overlap},
+            "recursive": {"chunk_size": self.chunk_size, "chunk_overlap": self.chunk_overlap},
+            "semantic": {},
+        }.get(self.chunk_strategy, {})
+
         for doc in documents:
             chunks = chunk_text(
                 doc["content"],
                 strategy=self.chunk_strategy,
-                chunk_size=self.chunk_size,
-                overlap=self.chunk_overlap
-                if self.chunk_strategy == "fixed"
-                else None,
-                chunk_overlap=self.chunk_overlap
-                if self.chunk_strategy != "fixed"
-                else None,
+                **strategy_kwargs,
             )
 
             for i, chunk in enumerate(chunks):
