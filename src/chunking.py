@@ -52,6 +52,9 @@ def fixed_chunk(
         - May split mid-sentence or mid-word
         - Ignores semantic structure
     """
+    if chunk_size <= 0 or not 0 <= overlap < chunk_size:
+        # overlap >= chunk_size would never advance `start` (infinite loop).
+        raise ValueError("require chunk_size > 0 and 0 <= overlap < chunk_size")
     if not text:
         return []
 

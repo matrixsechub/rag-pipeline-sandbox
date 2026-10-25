@@ -1,0 +1,5 @@
+# CI test dependencies. sentence-transformers (torch) is intentionally
+# omitted; tests substitute a deterministic embedder for it.
+pytest
+numpy>=1.26.0
+chromadb==1.5.9
